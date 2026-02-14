@@ -1,11 +1,14 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { RiskBadge } from "./RiskBadge";
 
-export function ScoreGauge() {
-    const score = 72; // Mock score
+interface ScoreGaugeProps {
+    score: number;
+    riskLevel: string;
+}
 
+export function ScoreGauge({ score, riskLevel }: ScoreGaugeProps) {
     // Calculate rotation for gauge (0-180 degrees)
     // Score 0 = -90deg, Score 100 = 90deg
     const rotation = (score / 100) * 180 - 90;
@@ -15,7 +18,7 @@ export function ScoreGauge() {
             <div className="relative w-48 h-24 overflow-hidden mb-4">
                 {/* Gauge Background */}
                 <div className="absolute w-48 h-48 rounded-full border-[12px] border-slate-200 dark:border-slate-800 top-0 left-0 box-border"></div>
-                {/* Gauge Fill (Simplified visual) */}
+                {/* Gauge Fill */}
                 <div
                     className="absolute w-48 h-48 rounded-full border-[12px] border-transparent border-t-teal-500 border-r-teal-500 top-0 left-0 box-border transition-all duration-1000 ease-out"
                     style={{ transform: `rotate(${rotation}deg)` }}
@@ -32,7 +35,7 @@ export function ScoreGauge() {
                     Based on savings ratio, debt ratio, and emergency coverage.
                 </p>
                 <div className="pt-2">
-                    <RiskBadge level="Medium" />
+                    <RiskBadge level={riskLevel as "Low" | "Medium" | "High"} />
                 </div>
             </div>
         </Card>

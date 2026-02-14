@@ -3,7 +3,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Hourglass } from "lucide-react";
 
-export function FinancialAgeCard() {
+interface FinancialAgeCardProps {
+    financialAge: number;
+    actualAge: number;
+}
+
+export function FinancialAgeCard({ financialAge, actualAge }: FinancialAgeCardProps) {
+    const diff = financialAge - actualAge;
+    const isBehind = diff > 0;
+    const isAhead = diff < 0;
+
     return (
         <Card className="bg-gradient-to-r from-slate-900 to-slate-800 text-white border-none shadow-lg transform transition-all hover:scale-[1.02]">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -13,16 +22,22 @@ export function FinancialAgeCard() {
             <CardContent>
                 <div className="space-y-4">
                     <div>
-                        <span className="text-4xl font-bold text-teal-400">35 Years</span>
+                        <span className="text-4xl font-bold text-teal-400">{financialAge} Years</span>
                         <span className="ml-2 text-sm text-slate-400">
-                            (Actual Age: 32)
+                            (Actual Age: {actualAge})
                         </span>
                     </div>
                     <p className="text-slate-300 font-medium">
-                        You are financially 3 years behind your actual age.
+                        {isBehind
+                            ? `You are financially ${diff} years behind your actual age.`
+                            : isAhead
+                                ? `You are financially ${Math.abs(diff)} years ahead of your actual age!`
+                                : "Your financial age matches your actual age."}
                     </p>
                     <p className="text-xs text-slate-400 leading-relaxed max-w-md">
-                        Based on your current net worth and retirement goals, your financial progress aligns with the average 35-year-old. Increasing your savings rate by 5% can help you catch up within 2 years.
+                        {isBehind
+                            ? "Increasing your savings rate and reducing debt can help you catch up quickly."
+                            : "Great job! Keep maintaining your healthy financial habits to stay ahead."}
                     </p>
                 </div>
             </CardContent>

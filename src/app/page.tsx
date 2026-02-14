@@ -70,7 +70,7 @@ export default function DashboardPage() {
           {/* Reusing Growth Projection Chart for Dashboard View */}
           <div className="bg-white dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 h-[400px]">
             <h3 className="text-lg font-semibold mb-4 px-2">Net Worth Growth</h3>
-            <GrowthProjectionChart />
+            <GrowthProjectionChart data={[]} />
           </div>
         </div>
 
