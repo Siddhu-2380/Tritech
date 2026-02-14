@@ -12,7 +12,7 @@ FinGrow is a modern, responsive financial literacy web application designed for 
 - Modular component-based architecture
 ---
 ## Project Structure
-
+```
 fin-grow/
 │
 ├── public/
@@ -53,6 +53,7 @@ fin-grow/
 ├── tsconfig.json
 ├── package.json
 └── README.md
+```
 ---
 ## Features
 
