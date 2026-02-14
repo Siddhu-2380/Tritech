@@ -6,6 +6,7 @@ import { RecentActivityCard } from "@/components/dashboard/RecentActivityCard";
 import { GrowthProjectionChart } from "@/components/growth-simulator/GrowthProjectionChart";
 import { UserLevelCard } from "@/components/dashboard/UserLevelCard";
 import { AchievementBadges } from "@/components/dashboard/AchievementBadges";
+import { GamificationCard } from "@/components/dashboard/GamificationCard";
 import { StreakTracker } from "@/components/dashboard/StreakTracker";
 import { WeeklyChallengeCard } from "@/components/dashboard/WeeklyChallengeCard";
 import { FinancialFreedomProgress } from "@/components/dashboard/FinancialFreedomProgress";
@@ -35,6 +36,9 @@ export default function DashboardPage() {
           </Button>
         </div>
       </div>
+
+      {/* Your Progress - Gamification Card */}
+      <GamificationCard />
 
       {/* Gamification Top Row */}
       <div className="grid gap-6 md:grid-cols-12">

@@ -8,6 +8,7 @@ import { ComparisonCards } from "@/components/growth-simulator/ComparisonCards";
 import { BreakdownTable } from "@/components/growth-simulator/BreakdownTable";
 import { FinancialFreedomCard } from "@/components/growth-simulator/FinancialFreedomCard";
 import { simulateGrowth, GrowthInput, GrowthResponse } from "@/services/api";
+import { useGamification } from "@/hooks/useGamification";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 
@@ -15,6 +16,7 @@ export default function GrowthSimulatorPage() {
     const [growthData, setGrowthData] = useState<GrowthResponse | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { awardXP } = useGamification();
     const [annualReturn, setAnnualReturn] = useState(12);
     const [currentAge, setCurrentAge] = useState<number | undefined>(26);
     const [monthlyInvestment, setMonthlyInvestment] = useState(5000);
@@ -41,6 +43,7 @@ export default function GrowthSimulatorPage() {
         try {
             const result = await simulateGrowth(data);
             setGrowthData(result);
+            awardXP("simulate_growth");
         } catch (err) {
             setError("Failed to simulate growth. Please check backend connection.");
             console.error(err);
