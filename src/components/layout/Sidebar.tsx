@@ -9,7 +9,8 @@ import {
     Target,
     AlertTriangle,
     Bot,
-    BookOpen
+    BookOpen,
+    Gamepad2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,7 @@ const navigation = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
     { name: "Financial Health", href: "/financial-health", icon: Activity },
     { name: "Growth Simulator", href: "/growth-simulator", icon: TrendingUp },
+    { name: "Games", href: "/games", icon: Gamepad2 },
     { name: "Goal Planner", href: "/goal-planner", icon: Target },
     { name: "Consequence Simulator", href: "/consequence-simulator", icon: AlertTriangle },
     { name: "AI Finance Coach", href: "/ai-coach", icon: Bot },

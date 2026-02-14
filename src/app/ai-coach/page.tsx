@@ -1,65 +1,155 @@
 "use client";
 
-import { ChatInterface } from "@/components/ai-coach/ChatInterface";
-import { SuggestedQuestions } from "@/components/ai-coach/SuggestedQuestions";
-import { InsightCard } from "@/components/ai-coach/InsightCard";
+import { useState, useRef, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Bot, Sparkles } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Bot, User, Send, Sparkles } from "lucide-react";
+import { sendChat, ChatRequest } from "@/services/api";
+import ReactMarkdown from 'react-markdown';
+
+interface Message {
+    role: "user" | "model";
+    content: string;
+}
 
 export default function AICoachPage() {
+    const [messages, setMessages] = useState<Message[]>([
+        { role: "model", content: "Hello! I am FinGrow, your personal AI finance coach. How can I help you manage your money today?" }
+    ]);
+    const [input, setInput] = useState("");
+    const [loading, setLoading] = useState(false);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    // Auto-scroll to bottom
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]);
+
+    const handleSend = async () => {
+        if (!input.trim()) return;
+
+        const userMsg: Message = { role: "user", content: input };
+        setMessages(prev => [...prev, userMsg]);
+        setInput("");
+        setLoading(true);
+
+        try {
+            // Context could be gathered here from other stores if implemented
+            const context = {
+                monthly_income: 30000,
+                current_savings: 50000,
+                financial_goals: ["Buy a house in 5 years", "Retire at 45"]
+            };
+
+            // Format history for API
+            const history = messages.map(m => ({
+                role: m.role === "user" ? "user" : "model",
+                parts: [m.content]
+            }));
+
+            const data = await sendChat({
+                message: userMsg.content,
+                context,
+                history
+            });
+
+            const botMsg: Message = { role: "model", content: data.response };
+            setMessages(prev => [...prev, botMsg]);
+
+        } catch (error) {
+            console.error(error);
+            setMessages(prev => [...prev, { role: "model", content: "I'm having trouble connecting to my brain right now. Please try again later." }]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
+    };
+
     return (
-        <div className="h-[calc(100vh-6rem)] p-4 md:p-6 lg:p-8 max-w-5xl mx-auto flex flex-col gap-4">
-            {/* Header */}
-            <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                        AI Finance Coach
-                    </h1>
-                    <span className="px-2 py-0.5 rounded-full bg-teal-100 text-teal-700 text-xs font-semibold dark:bg-teal-900/30 dark:text-teal-400">
-                        Beta
-                    </span>
-                </div>
-                <p className="text-slate-500 dark:text-slate-400 text-sm">
-                    Ask anything about saving, investing, budgeting, or financial planning.
-                </p>
+        <div className="h-[calc(100vh-100px)] p-4 max-w-4xl mx-auto flex flex-col gap-4 animate-in fade-in duration-500">
+            <div className="text-center space-y-1">
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center justify-center gap-2">
+                    <Sparkles className="w-8 h-8 text-indigo-500" />
+                    AI Finance Coach
+                </h1>
+                <p className="text-slate-500 dark:text-slate-400">Powered by Gemini Pro</p>
             </div>
 
-            {/* Main Chat Container */}
-            <div className="flex-1 flex flex-col bg-white dark:bg-slate-950 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative">
+            <Card className="flex-1 flex flex-col border-2 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden bg-white dark:bg-slate-950">
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {messages.map((msg, idx) => (
+                        <div key={idx} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                            {msg.role === "model" && (
+                                <Avatar className="h-8 w-8 border border-indigo-200 bg-indigo-50">
+                                    <AvatarFallback><Bot className="h-5 w-5 text-indigo-600" /></AvatarFallback>
+                                </Avatar>
+                            )}
 
-                {/* Chat Header (Optional cosmetic top bar) */}
-                <div className="h-1 bg-gradient-to-r from-teal-500 to-emerald-500 w-full"></div>
+                            <div className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${msg.role === "user"
+                                    ? "bg-indigo-600 text-white rounded-br-none"
+                                    : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-none border border-slate-200 dark:border-slate-700"
+                                }`}>
+                                <div className="prose dark:prose-invert prose-sm max-w-none leading-relaxed">
+                                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                </div>
+                            </div>
 
-                {/* Messages */}
-                <ChatInterface />
-
-                {/* Insight & Suggestions */}
-                <InsightCard />
-                <SuggestedQuestions />
-
-                {/* Input Area */}
-                <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
-                    <div className="relative flex items-center gap-2">
-                        <div className="absolute left-3 top-2.5">
-                            <Sparkles className="h-5 w-5 text-teal-500 animate-pulse" />
+                            {msg.role === "user" && (
+                                <Avatar className="h-8 w-8 border border-slate-200 bg-slate-100">
+                                    <AvatarFallback><User className="h-5 w-5 text-slate-600" /></AvatarFallback>
+                                </Avatar>
+                            )}
                         </div>
+                    ))}
+                    {loading && (
+                        <div className="flex gap-3 justify-start animate-pulse">
+                            <Avatar className="h-8 w-8 border border-indigo-200 bg-indigo-50">
+                                <AvatarFallback><Bot className="h-5 w-5 text-indigo-600" /></AvatarFallback>
+                            </Avatar>
+                            <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-bl-none px-4 py-3 flex items-center gap-1">
+                                <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></span>
+                                <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></span>
+                                <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></span>
+                            </div>
+                        </div>
+                    )}
+                    <div ref={scrollRef} />
+                </div>
+
+                <div className="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+                    <div className="flex gap-2">
                         <Input
-                            placeholder="Ask a financial question..."
-                            className="pl-10 pr-12 h-12 rounded-full border-slate-200 dark:border-slate-800 focus-visible:ring-teal-500 shadow-sm"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Ask me anything about money..."
+                            className="flex-1 bg-white dark:bg-slate-950 border-slate-300 dark:border-slate-700 focus-visible:ring-indigo-500"
+                            disabled={loading}
                         />
                         <Button
-                            size="icon"
-                            className="absolute right-1.5 top-1.5 h-9 w-9 rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-sm"
+                            onClick={handleSend}
+                            disabled={loading || !input.trim()}
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-indigo-500/25"
                         >
-                            <Send className="h-4 w-4" />
+                            {loading ? <span className="animate-spin">⏳</span> : <Send className="w-5 h-5" />}
                         </Button>
                     </div>
-                    <p className="text-[10px] text-center text-slate-400 mt-2">
-                        This AI coach provides educational guidance only and not professional financial advice.
+                    <p className="text-xs text-center text-slate-400 mt-2">
+                        FinGrow AI can make mistakes. Consider checking important information.
                     </p>
                 </div>
-            </div>
+            </Card>
         </div>
     );
 }

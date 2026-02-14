@@ -8,6 +8,7 @@ import { SuggestionCards } from "@/components/financial-health/SuggestionCards";
 import { BreakdownChart } from "@/components/financial-health/BreakdownChart";
 import { calculateFinancialScore, FinancialInput, FinancialScoreResponse } from "@/services/api";
 import { useGamification } from "@/hooks/useGamification";
+import { useFinancialData } from "@/hooks/useFinancialData";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 
@@ -17,6 +18,7 @@ export default function FinancialHealthPage() {
     const [error, setError] = useState<string | null>(null);
     const [currentAge, setCurrentAge] = useState<number>(30);
     const { awardXP } = useGamification();
+    const { updateFinancialScore } = useFinancialData();
 
     const handleCalculate = async (data: FinancialInput) => {
         setLoading(true);
@@ -26,6 +28,7 @@ export default function FinancialHealthPage() {
         try {
             const result = await calculateFinancialScore(data);
             setScoreData(result);
+            updateFinancialScore(result.financial_score, result.risk_level);
             awardXP("calculate_score");
         } catch (err) {
             setError("Failed to calculate score. Please ensure the backend server is running.");

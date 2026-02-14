@@ -5,6 +5,7 @@ import { GoalInputCard } from "@/components/goal-planner/GoalInputCard";
 import { GoalResultCard } from "@/components/goal-planner/GoalResultCard";
 import { calculateGoal, GoalInput, GoalResponse } from "@/services/api";
 import { useGamification } from "@/hooks/useGamification";
+import { useFinancialData } from "@/hooks/useFinancialData";
 import { AlertCircle } from "lucide-react";
 
 export default function GoalPlannerPage() {
@@ -12,6 +13,7 @@ export default function GoalPlannerPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const { awardXP } = useGamification();
+    const { incrementGoals } = useFinancialData();
 
     const handleCalculate = async (data: GoalInput) => {
         setLoading(true);
@@ -21,6 +23,7 @@ export default function GoalPlannerPage() {
         try {
             const response = await calculateGoal(data);
             setResult(response);
+            incrementGoals();
             awardXP("plan_goal");
         } catch (err) {
             setError("Failed to calculate goal. Please check backend connection.");
