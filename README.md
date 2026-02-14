@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
+## FinGrow – AI Financial Growth Simulator
+
+FinGrow is a modern, responsive financial literacy web application designed for youth. It uses interactive simulators, learning modules, and AI-style guidance to teach financial decision-making. This project is frontend-only and uses mock/static data for all calculations.
+---
+## Tech Stack
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Chart.js
+- Modular component-based architecture
+---
+## Project Structure
+
+fin-grow/
+│
+├── public/
+│   └── assets, icons, images
+│
+├── src/
+│   ├── app/
+│   │   ├── ai-coach/
+│   │   │   └── page.tsx
+│   │   ├── consequence-simulator/
+│   │   │   └── page.tsx
+│   │   ├── financial-health/
+│   │   │   └── page.tsx
+│   │   ├── goal-planner/
+│   │   │   └── page.tsx
+│   │   ├── growth-simulator/
+│   │   │   └── page.tsx
+│   │   ├── learn/
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx (Home Page)
+│   │
+│   ├── components/
+│   │   ├── ai-coach/
+│   │   ├── consequence-simulator/
+│   │   ├── dashboard/
+│   │   ├── financial-health/
+│   │   ├── goal-planner/
+│   │   ├── growth-simulator/
+│   │   ├── layout/
+│   │   ├── learn/
+│   │   ├── ui/
+│   │   └── lib/
+│   │
+│   └── globals.css
+│
+├── next.config.ts
+├── tsconfig.json
+├── package.json
+└── README.md
+---
+## Features
+
+- 1. Growth Simulator  
+   Simulates investment growth using mock interest rates and charts.
+
+- 2. Goal Planner  
+   Allows users to set and track savings goals.
+
+- 3. Financial Health  
+   Shows budgeting insights, spending breakdowns, and savings indicators.
+
+- 4. AI Coach (Frontend Mock)  
+   Provides pre-defined financial advice based on selected topics.
+
+- 5. Consequence Simulator  
+   Shows consequences of financial decisions such as EMI, debt, and impulse purchases.
+
+- 6. Learning Section  
+   A structured learning module explaining financial concepts in simple language.
+---
 
 ## Getting Started
 
-First, run the development server:
-
+### 1. Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Siddhu-2380/Tritech.git 
+
+cd fin-grow 
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Run Development Server
+```bash
+npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+App will open at: http://localhost:3000
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
