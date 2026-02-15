@@ -27,6 +27,8 @@ FinGrow is an interactive, gamified platform designed to help young Indians mast
 - **Risk Analysis**: Assess your investment risk profile based on your habits.
 - **Goal Tracking**: Set and track progress towards life goals (buying a home, emergency fund, etc.).
 
+---
+
 ## 🛠️ Tech Stack
 
 **Frontend**
@@ -40,9 +42,60 @@ FinGrow is an interactive, gamified platform designed to help young Indians mast
 - **Framework**: FastAPI (Python)
 - **Database**: SQLite / SQLAlchemy
 - **AI Integration**: Google Gemini API
-- **Data Processing**: Pandas, NumPy
 
-## � Getting Started
+---
+
+## 📁 Project Structure
+
+```
+fin-grow/
+├── public/                         # Static assets (SVGs, icons)
+│
+├── src/
+│   ├── app/                        # Next.js App Router pages
+│   │   ├── ai-coach/
+│   │   ├── consequence-simulator/
+│   │   ├── financial-health/
+│   │   ├── goal-planner/
+│   │   ├── growth-simulator/
+│   │   ├── learn/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── globals.css
+│   │
+│   ├── components/                 # Feature-based UI components
+│   │   ├── ai-coach/
+│   │   ├── consequence-simulator/
+│   │   ├── dashboard/
+│   │   ├── financial-health/
+│   │   ├── goal-planner/
+│   │   ├── growth-simulator/
+│   │   ├── layout/
+│   │   ├── learn/
+│   │   └── ui/                     # Reusable UI components
+│   │
+│   ├── backend/                    # Backend logic / APIs
+│   │   ├── controllers/
+│   │   ├── routers/
+│   │   ├── services/
+│   │   ├── models/
+│   │   └── config/
+│   │
+│   └── lib/                        # Utility/helper functions
+│       └── utils.ts
+│
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── next.config.ts
+├── postcss.config.mjs
+├── eslint.config.mjs
+├── tsconfig.json
+└── README.md
+```
+
+---
+## � How To Run
 
 Follow these steps to set up the project locally.
 
@@ -98,9 +151,5 @@ We welcome contributions! Please fork the repository and submit a pull request f
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 ---
-*Built with ❤️ for the [Hackathon Name] Hackathon.*
+*Built by Team Tritech.*
