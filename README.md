@@ -4,8 +4,7 @@
 
 FinGrow is an interactive, gamified platform designed to help young Indians master personal finance. By combining AI-driven coaching, real-time simulations, and engaging games, we make financial literacy accessible, practical, and fun.
 
-![FinGrow Dashboard Demo](https://via.placeholder.com/800x450.png?text=FinGrow+Dashboard+Preview)
-
+---
 ## 🌟 Key Features
 
 ### 🤖 AI Finance Coach
