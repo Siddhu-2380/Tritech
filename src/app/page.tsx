@@ -1,9 +1,7 @@
 "use client";
 
-import { PremiumOverviewCards } from "@/components/dashboard/PremiumOverviewCards";
 import { PremiumQuickActions } from "@/components/dashboard/PremiumQuickActions";
 import { RecentActivityCard } from "@/components/dashboard/RecentActivityCard";
-import { GrowthProjectionChart } from "@/components/growth-simulator/GrowthProjectionChart";
 import { UserLevelCard } from "@/components/dashboard/UserLevelCard";
 import { AchievementBadges } from "@/components/dashboard/AchievementBadges";
 import { GamificationCard } from "@/components/dashboard/GamificationCard";
@@ -23,56 +21,51 @@ export default function DashboardPage() {
   const { financialScore, riskLevel, totalInvested, totalReturns, activeGoalsCount } = useFinancialData();
 
   return (
-    <div className="space-y-8 p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className="space-y-8 p-4 md:p-8 lg:p-10 max-w-7xl mx-auto">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 animate-fade-in">
         <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
             Hello, Alex 👋
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            Here's your financial progress for today.
+          <p className="text-slate-500 dark:text-slate-400">
+            Here&apos;s your financial progress for today.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" className="rounded-full">
+        <div className="flex items-center gap-3">
+          <Button variant="outline" size="icon" className="rounded-xl">
             <Bell className="h-4 w-4 text-slate-600" />
           </Button>
-          <Button className="bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
+          <Button className="shadow-md">
             Download Report
           </Button>
         </div>
       </div>
 
       {/* Top Section: Score & XP */}
-      <div className="grid gap-6 md:grid-cols-12">
-        {/* Financial Score */}
+      <div className="grid gap-6 md:grid-cols-12 animate-slide-up">
         <div className="md:col-span-4 lg:col-span-4">
           <FinancialScoreSummaryCard score={financialScore} risk={riskLevel} />
         </div>
-        {/* Main XP Card */}
         <div className="md:col-span-8 lg:col-span-8">
           <GamificationCard />
         </div>
       </div>
 
       {/* Middle Section: Summary Stats */}
-      <DashboardSummaryCards
-        totalInvested={totalInvested}
-        totalReturns={totalReturns}
-        activeGoals={activeGoalsCount}
-      />
+      <div className="animate-slide-up-delay-1">
+        <DashboardSummaryCards
+          totalInvested={totalInvested}
+          totalReturns={totalReturns}
+          activeGoals={activeGoalsCount}
+        />
+      </div>
 
-      {/* Legacy/Existing Dashboard Blocks (Reorganized) */}
-      <div className="grid gap-6 lg:grid-cols-12">
+      {/* Main Content Grid */}
+      <div className="grid gap-6 lg:grid-cols-12 animate-slide-up-delay-2">
         <div className="lg:col-span-8 space-y-6">
-          {/* Quick Actions */}
           <PremiumQuickActions />
-
-          {/* Play & Earn Games */}
           <PlayAndEarnCard />
-
-          {/* Financial Freedom Progress */}
           <FinancialFreedomProgress />
         </div>
 
@@ -83,7 +76,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Bottom Section: Articles */}
-      <FinancialArticles />
+      <div className="animate-slide-up-delay-3">
+        <FinancialArticles />
+      </div>
     </div>
   );
 }

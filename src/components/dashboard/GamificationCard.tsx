@@ -25,22 +25,22 @@ export function GamificationCard() {
     };
 
     return (
-        <Card className="border-2 border-slate-200 dark:border-slate-700 relative overflow-hidden">
+        <Card className="relative overflow-hidden">
             {/* XP Popup Notification */}
             {showPopup && lastMessage && (
-                <div className="absolute top-2 right-2 z-10 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-4 py-2 rounded-lg shadow-lg animate-in fade-in slide-in-from-top-2 duration-300 flex items-center gap-2">
+                <div className="absolute top-3 right-3 z-10 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-4 py-2.5 rounded-xl shadow-lg shadow-amber-500/25 animate-slide-up flex items-center gap-2">
                     <Zap className="h-4 w-4" />
                     <span className="text-sm font-semibold">{lastMessage}</span>
-                    <button onClick={dismissPopup} className="ml-1">
+                    <button onClick={dismissPopup} className="ml-1 hover:bg-white/20 rounded-full p-0.5 transition-colors">
                         <X className="h-3 w-3" />
                     </button>
                 </div>
             )}
 
             <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${getLevelColor()} flex items-center justify-center shadow-lg`}>
+                <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3.5">
+                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${getLevelColor()} flex items-center justify-center shadow-lg animate-pulse-glow`}>
                             <Trophy className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -50,23 +50,23 @@ export function GamificationCard() {
                     </div>
 
                     <div className="text-right">
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1.5">
                             <Star className="h-4 w-4 text-yellow-500" />
-                            <span className="text-2xl font-bold text-slate-900 dark:text-white">{xp}</span>
+                            <span className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">{xp}</span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Total XP</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total XP</p>
                     </div>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="space-y-2">
-                    <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                <div className="space-y-2.5">
+                    <div className="flex justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
                         <span>Level {level}</span>
-                        <span>{level < 5 ? `${xpToNextLevel} XP to Level ${level + 1}` : "Max Level!"}</span>
+                        <span>{level < 5 ? `${xpToNextLevel} XP to Level ${level + 1}` : "Max Level! 🏆"}</span>
                     </div>
-                    <div className="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div className="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                         <div
-                            className={`h-full bg-gradient-to-r ${getLevelColor()} rounded-full transition-all duration-1000 ease-out`}
+                            className={`h-full bg-gradient-to-r ${getLevelColor()} rounded-full animate-progress-fill shadow-sm`}
                             style={{ width: `${progressPercent}%` }}
                         />
                     </div>

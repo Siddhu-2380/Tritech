@@ -6,6 +6,7 @@ import { ArticleCard } from "@/components/learn/ArticleCard";
 import { ArticleDetailModal } from "@/components/learn/ArticleDetailModal";
 import { ProgressTracker } from "@/components/learn/ProgressTracker";
 import { RecommendedArticles } from "@/components/learn/RecommendedArticles";
+import { NewsFeed } from "@/components/learn/NewsFeed";
 
 // Mock Data
 type Difficulty = "Beginner" | "Intermediate" | "Advanced";
@@ -160,29 +161,37 @@ export default function LearnPage() {
                 </p>
             </div>
 
-            {/* Progress Tracker */}
-            <ProgressTracker />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Main Content Area */}
+                <div className="lg:col-span-8 space-y-8">
+                    {/* Progress Tracker */}
+                    <ProgressTracker />
 
-            {/* Main Content */}
-            <div className="space-y-6">
-                {/* Filters */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <CategoryFilter
-                        categories={categories}
-                        activeCategory={activeCategory}
-                        onSelectCategory={setActiveCategory}
-                    />
+                    {/* Learning Content */}
+                    <div className="space-y-6">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <CategoryFilter
+                                categories={categories}
+                                activeCategory={activeCategory}
+                                onSelectCategory={setActiveCategory}
+                            />
+                        </div>
+
+                        <div className="grid gap-6 md:grid-cols-2">
+                            {filteredArticles.map((article) => (
+                                <ArticleCard
+                                    key={article.id}
+                                    article={article}
+                                    onReadMore={handleReadMore}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                {/* Articles Grid */}
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredArticles.map((article) => (
-                        <ArticleCard
-                            key={article.id}
-                            article={article}
-                            onReadMore={handleReadMore}
-                        />
-                    ))}
+                {/* Sidebar - News Feed */}
+                <div className="lg:col-span-4">
+                    <NewsFeed />
                 </div>
             </div>
 

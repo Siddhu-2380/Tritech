@@ -4,24 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium ring-offset-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] dark:ring-offset-slate-950 dark:focus-visible:ring-teal-400",
     {
         variants: {
             variant: {
-                default: "bg-teal-600 text-slate-50 hover:bg-teal-600/90 dark:bg-teal-500 dark:text-slate-900 dark:hover:bg-teal-500/90",
+                default: "bg-gradient-to-r from-teal-600 to-teal-500 text-white shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-teal-500/30 hover:brightness-110 dark:from-teal-500 dark:to-teal-400 dark:text-slate-950",
                 destructive:
-                    "bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90",
+                    "bg-red-500 text-slate-50 shadow-md shadow-red-500/20 hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/30 dark:bg-red-600 dark:text-slate-50 dark:hover:bg-red-700",
                 outline:
-                    "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+                    "border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-900 dark:hover:border-slate-700 dark:hover:text-slate-50",
                 secondary:
-                    "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
+                    "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700",
                 ghost: "hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50",
-                link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
+                link: "text-teal-600 underline-offset-4 hover:underline dark:text-teal-400",
             },
             size: {
-                default: "h-10 px-4 py-2",
-                sm: "h-9 rounded-md px-3",
-                lg: "h-11 rounded-md px-8",
+                default: "h-10 px-5 py-2",
+                sm: "h-9 rounded-lg px-3.5",
+                lg: "h-12 rounded-xl px-8 text-base",
                 icon: "h-10 w-10",
             },
         },

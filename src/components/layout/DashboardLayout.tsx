@@ -2,19 +2,16 @@
 
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
-import { Footer } from "./Footer";
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex h-screen bg-slate-50 dark:bg-slate-950">
+        <div className="flex h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
             <Sidebar />
             <div className="flex flex-1 flex-col overflow-hidden">
                 <Navbar />
-                <main className="flex-1 overflow-y-auto p-6">
+                <main className="flex-1 overflow-y-auto custom-scrollbar">
                     {children}
                 </main>
-                {/* Footer is optional inside the scrolling area or fixed at bottom */}
-                {/* <Footer /> */}
             </div>
         </div>
     );
