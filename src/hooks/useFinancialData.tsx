@@ -2,18 +2,22 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 
+const API_BASE_URL = "http://127.0.0.1:8001";
+
 interface FinancialData {
-    financialScore: number | null;
-    riskLevel: string | null;
-    totalInvested: number | null;
-    totalReturns: number | null;
+    financialScore: number;
+    riskLevel: string;
+    totalInvested: number;
+    totalReturns: number;
     activeGoalsCount: number;
+    isLoading: boolean;
 }
 
 interface FinancialDataContextType extends FinancialData {
-    updateFinancialScore: (score: number, risk: string) => void;
-    updateInvestmentStats: (invested: number, returns: number) => void;
-    incrementGoals: () => void;
+    updateFinancialScore: (score: number, risk: string) => Promise<void>;
+    updateInvestmentStats: (invested: number, returns: number) => Promise<void>;
+    incrementGoals: () => Promise<void>;
+    refreshData: () => Promise<void>;
 }
 
 const FinancialDataContext = createContext<FinancialDataContextType | null>(null);
@@ -26,42 +30,74 @@ export function useFinancialData() {
 
 export function FinancialDataProvider({ children }: { children: ReactNode }) {
     const [state, setState] = useState<FinancialData>({
-        financialScore: null,
-        riskLevel: null,
-        totalInvested: null,
-        totalReturns: null,
-        activeGoalsCount: 0
+        financialScore: 0,
+        riskLevel: "Unknown",
+        totalInvested: 0,
+        totalReturns: 0,
+        activeGoalsCount: 0,
+        isLoading: true
     });
 
-    // Load from localStorage
-    useEffect(() => {
-        const saved = localStorage.getItem("fingrow_financial_data");
-        if (saved) {
-            try {
-                setState(prev => ({ ...prev, ...JSON.parse(saved) }));
-            } catch { /* ignore */ }
+    const refreshData = useCallback(async () => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/dashboard/stats`);
+            if (res.ok) {
+                const data = await res.json();
+                setState(prev => ({
+                    ...prev,
+                    financialScore: data.financial_score,
+                    riskLevel: data.risk_level,
+                    totalInvested: data.total_invested,
+                    totalReturns: data.total_returns,
+                    activeGoalsCount: data.active_goals_count,
+                    isLoading: false
+                }));
+            }
+        } catch (error) {
+            console.error("Failed to fetch dashboard stats", error);
+            setState(prev => ({ ...prev, isLoading: false }));
         }
     }, []);
 
-    // Save to localStorage
     useEffect(() => {
-        localStorage.setItem("fingrow_financial_data", JSON.stringify(state));
-    }, [state]);
+        refreshData();
+    }, [refreshData]);
 
-    const updateFinancialScore = useCallback((score: number, risk: string) => {
-        setState(prev => ({ ...prev, financialScore: score, riskLevel: risk }));
+    const updateStats = async (updates: Partial<any>) => {
+        // Optimistic update
+        setState(prev => ({ ...prev, ...updates }));
+
+        try {
+            await fetch(`${API_BASE_URL}/dashboard/update`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updates)
+            });
+        } catch (error) {
+            console.error("Failed to update stats", error);
+        }
+    };
+
+    const updateFinancialScore = useCallback(async (score: number, risk: string) => {
+        await updateStats({ financial_score: score, risk_level: risk });
     }, []);
 
-    const updateInvestmentStats = useCallback((invested: number, returns: number) => {
-        setState(prev => ({ ...prev, totalInvested: invested, totalReturns: returns }));
+    const updateInvestmentStats = useCallback(async (invested: number, returns: number) => {
+        await updateStats({ total_invested: invested, total_returns: returns });
     }, []);
 
-    const incrementGoals = useCallback(() => {
-        setState(prev => ({ ...prev, activeGoalsCount: prev.activeGoalsCount + 1 }));
-    }, []);
+    const incrementGoals = useCallback(async () => {
+        await updateStats({ active_goals_count: state.activeGoalsCount + 1 });
+    }, [state.activeGoalsCount]);
 
     return (
-        <FinancialDataContext.Provider value={{ ...state, updateFinancialScore, updateInvestmentStats, incrementGoals }}>
+        <FinancialDataContext.Provider value={{
+            ...state,
+            updateFinancialScore,
+            updateInvestmentStats,
+            incrementGoals,
+            refreshData
+        }}>
             {children}
         </FinancialDataContext.Provider>
     );

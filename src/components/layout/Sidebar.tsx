@@ -78,7 +78,7 @@ export function Sidebar() {
 
             {/* User Profile */}
             <div className="border-t border-slate-800/50 p-4">
-                <div className="flex items-center gap-3 rounded-xl p-2 hover:bg-slate-800/40 transition-colors cursor-pointer">
+                <div className="flex items-center gap-3 rounded-xl p-2 hover:bg-slate-800/40 transition-colors">
                     <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-sm font-bold text-white shadow-md shadow-teal-500/20">
                         A
                     </div>
@@ -86,6 +86,11 @@ export function Sidebar() {
                         <p className="text-sm font-medium text-white truncate">Alex</p>
                         <p className="text-[11px] text-slate-500">Level 3 Investor</p>
                     </div>
+                    <Link href="/login">
+                        <button className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors" title="Log Out">
+                            <LogOut className="h-4 w-4" />
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>
